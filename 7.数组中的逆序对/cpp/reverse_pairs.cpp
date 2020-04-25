@@ -35,7 +35,7 @@ public:
         };
         for (int i = 0; i < pm; i++) {
             // 给原数组相应的部分排好序
-            A[i + left] = merged[i]; // l是left不是1
+            A[i + left] = merged[i];
         }
     }
     int reversePairs(vector<int>& nums) {
