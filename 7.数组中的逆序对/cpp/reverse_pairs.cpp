@@ -3,32 +3,39 @@ public:
 
     int cnt = 0;
     int merged[50001];
-    void merge_sort(int l, int r, vector<int>& A) {
-        if (l >= r) {
+    void merge_sort(int left, int right, vector<int>& A) {
+        if (left >= right) {
             return;
         }
-        int mid = (l + r) / 2;
-        merge_sort(l, mid, A);
-        merge_sort(mid+1, r, A);
+        int mid = (left + right) / 2;
+        //int mid = left + (right - left) / 2;
+        merge_sort(left, mid, A);
+        merge_sort(mid+1, right, A);
 
-        int pl = l, pr = mid+1, pm = 0; 
+        // 这是一处优化，也可以去掉
+        if (A[mid] <= A[mid+1]) {
+            return;
+        }
 
-        while (pl <= mid && pr <= r) {
+        int pl = left, pr = mid+1, pm = 0; 
+
+        while (pl <= mid && pr <= right) {
             if (A[pl] <= A[pr]) {
                 merged[pm++] = A[pl++];
             } else {
                 merged[pm++] = A[pr++];
-                cnt += mid - pl + 1;
+                cnt += mid - pl + 1; // 去掉这句就是普通的归并排序
             }
         }
         while (pl <= mid) {
             merged[pm++] = A[pl++];
         }
-        while (pr <=r) {
+        while (pr <=right) {
             merged[pm++] = A[pr++];
         };
         for (int i = 0; i < pm; i++) {
-            A[i + l] = merged[i]; 
+            // 给原数组相应的部分排好序
+            A[i + left] = merged[i]; // l是left不是1
         }
     }
     int reversePairs(vector<int>& nums) {
